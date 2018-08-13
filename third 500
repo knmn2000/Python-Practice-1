@@ -1,0 +1,30 @@
+'''from struct import *
+data = pack("iif", 1, 2, 5)
+print(data)
+print(unpack('iif', b'\x26\x00\x00\x00\x02\x00\x00\x00\x00\x00\xa0@'))'''
+'''vowels =['a','e','i','o','u']
+sent = list(input())
+for i in range(len(sent)):
+    if any(vowels) == sent[i]:
+     print("y")
+    else:
+     print("no")
+print(sent)
+print(vowels)'''
+
+
+# FIX THIS 
+
+
+'''n = int(input())
+i = 0
+for i in range(n):
+    a = int(input())
+    b = int(input())
+    print(a/b)
+    except ValueError:
+        print("enter numbers only")
+    except ZeroDivisionError:
+        print("AUR KYA EXPRESSIONS DU ISKO??")
+
+'''
