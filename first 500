@@ -1,0 +1,479 @@
+'''
+def m_age(age):
+    f_age= age/2 + 7
+    return f_age
+
+a = m_age(18)
+print(a)
+'''
+
+'''
+def get_name(name= "idk"):
+    if name is "a":
+        name = "aaa"
+    elif name is "b":
+        name  = "bbb"
+    else:
+        print(name)
+    print(name)
+
+
+get_name("a")
+get_name("b")
+get_name()
+'''
+'''
+def sentence(a="chatter", b= "lolwa", c="dogwa"):
+    print (a,b,c)
+
+sentence()
+sentence("gaega", "ageea ", "oieoi")
+sentence(b="feaoe", c="ufe",a="h9e" )
+'''
+'''
+def numbers(*num):
+    sum = 0
+    for n in num:
+        sum += n
+    print(sum)
+
+numbers(51,16,161,24)
+'''
+'''
+def health_calc(age,apples,cigs ):
+    ans = (100-age) + (apples * 3.5) - (cigs *2)
+    print(ans)
+
+kk_data = [18, 2, 0]
+
+health_calc(kk_data[-], kk_data[1], kk_data[2])
+health_calc(*kk_data)
+'''
+
+'''
+samaan = {"cheeni", "surf", "namak", "daal"}
+print(samaan)
+
+if "cheeni" in samaan:
+    print('cheeni hai')
+else:
+    print('cheeni lele')
+'''
+
+'''
+group = {'aadha':' half', 'pona':' quarter', 'dhai':' one halves', 'dedh':' two halves'}
+for k,v in group.items():
+    print(k + v)
+'''
+'''
+import first_import
+
+first_import.fish()
+'''
+                                                   #- HACKERRANK
+'''
+n = int(input("between 1 to 100"))
+
+if n%2 is 0 and n <6:
+    print("Not Weird")
+elif n < 21:
+    print ("Weird")
+elif n%2 is not 0:
+    print ("Weird")
+elif n>20:
+    print ("Not weird")
+'''
+                                                       # HACKERRANK
+'''
+a = int(input())
+b = int(input())
+
+print (a+b)
+print(a-b)
+print(a*b)
+'''
+                                                # HACKERRANK
+'''a= int(input())
+b= int(input())
+
+print(a//b)
+print(a/b)
+'''
+
+'''N = int(input())
+n=0
+while n <N:
+    print(n*n)
+    n += 1
+    '''
+'''
+print(*range(1, int(input())+1), sep='')
+'''
+'''
+import random
+import urllib.request
+
+
+def image_download(url):
+    name = random.randrange(1,1000)
+    fullname = str(name) + ".jpg"
+    urllib.request.urlretrieve(url, fullname)
+
+image_download("")
+'''
+'''
+fw = open('textfile', 'w')
+fw.write('kuch kuch likha hai \n' "safebe\n")
+fw.write("something something\n blah blah blah")
+fw.close()
+
+fr = open('textfile', 'r')
+text = fr.read()
+print(text)
+'''
+
+'''from urllib import request
+
+RandomCompany_url = "https://www.stats.govt.nz/assets/Uploads/Annual-balance-sheets/Annual-balance-sheets-2016-provisional/Download-data/annual-balance-sheet-2007-16-provisional-csv-tables.csv"
+
+def download_stock_data(csv_url):
+    response = request.urlopen(csv_url)
+    csv = response.read()
+    csv_str = csv.decode('utf-8')
+    lines = csv_str.split("\\n")
+    dest_url = r'RandomCompany.csv'
+    fx = open(dest_url, "w")
+    for line in lines:
+        fx.write(line + "\n")
+    fx.close()
+
+download_stock_data(RandomCompany_url)
+
+'''
+                                                                    # HACKERRANK
+'''
+
+print(*range(1, int(input())+1), sep='')
+print(*range(1,55), sep='')
+range(2,21)
+print(*range(2,6))
+'''
+'''
+import requests
+from bs4 import BeautifulSoup
+import urllib
+
+def spider():
+    url = "https://www.facebook.com/karan.mannan/friends"
+    source_code= requests.get(url)
+    plain_text= source_code.text
+    soup = BeautifulSoup(plain_text, "html.parser")
+    for link in soup.findAll('img'):
+        image = link.get('src')
+        title = link.string
+        print(title)
+        print(image)
+
+spider()
+'''
+'''while True:
+    try:
+        x= int(input("a number - "))
+        print(13/x)
+        break
+    except ValueError:
+        print("enter numbers only")
+    except ZeroDivisionError:
+        print("cant divide by zero")
+    except:
+        print("k hai ?")
+    finally:
+        print("amagin pragramsz v nic3")
+'''
+
+'''class cat:
+    life = 9
+    position = 1
+
+    def drink_milk(self):
+        print('purr...')
+        self.life += 1
+
+    def startled(self):
+        print('claws out!')
+        self.life -= 1
+
+    def check_health(self):
+        if self.life <= 0:
+            print('ded')
+        else:
+            print(str(self.life) + " life left")
+
+    def level(self):
+        X= 1
+        while X in range(1,11):
+         while self.life <= 10*X and self.position <=50:
+              print("your level is now " + str(self.position))
+              self.position += 1
+         else:
+               print("max level reached! You're level - ", self.level)
+               break
+
+cat1 = cat()
+cat1.drink_milk()
+cat1.drink_milk()
+cat1.drink_milk()
+cat1.drink_milk()
+cat1.drink_milk()
+cat1.drink_milk()
+cat1.drink_milk()
+cat1.drink_milk()
+cat1.drink_milk()
+cat1.drink_milk()
+cat1.drink_milk()
+cat1.drink_milk()
+cat1.drink_milk()
+cat1.drink_milk()
+cat1.drink_milk()
+cat1.drink_milk()
+cat1.drink_milk()
+cat1.check_health()
+cat1.level()'''
+
+                                                                   # HACKERRANK
+'''
+def is_leap(year):
+    if year % 400 is 0:
+        return 'True'
+    else:
+     return 'False'
+
+
+year = int(input())
+print(is_leap(year))
+'''
+
+'''class kutta:
+    def __init__(self, x):
+        self.ghumi_ghumi = x
+        print("inital wali class")
+
+    def kutta_fitness(self):
+        self.ghumi_ghumi = input("what do you think the fitness levels are?")
+        print(str(self.ghumi_ghumi+ "?!?!" + " ghanta lol"))
+
+kutta1= kutta(7)
+kutta1.kutta_fitness()
+'''
+
+
+'''
+class first():
+    def pehla(self):
+        print("kuch kuch")
+
+class second(first):
+    pass
+
+xyz= second()
+xyz.pehla()
+'''
+
+'''
+import threading
+
+class K(threading.Thread):
+    def run(self):
+        for _ in range(11):
+            print(threading.current_thread().getName(), 'digybicky', sep = '')
+
+x = K(name = 'z z z z z z z z z z ')
+y = K(name = ' z z z z z z z z z z')
+x.start()
+y.start()
+'''
+'''
+# CODE DOESNT WORK
+'''
+'''
+from bs4 import BeautifulSoup
+import requests
+import urllib
+
+def milo():
+
+       User_input = input("Title of Youtube vid - ")
+
+       words = User_input.split()
+
+       lst = []
+
+       lst.append('+'.join(words))
+       print("https://www.youtube.com/results?search_query=" + lst[0])
+
+
+       url = "https://www.youtube.com/results?search_query=" + lst[0]
+
+       source_code = requests.get(url)
+       plain_text = source_code.text
+       soup = BeautifulSoup(plain_text, 'html.parser')
+
+       for link in soup.findAll('a', {'class': 'yt-uix-tile-link'}):
+           lst.append('https://www.youtube.com' + link.get('href'))
+       print(lst[1])
+      # for link in soup.findAll('a',"video-title"):
+           # song = link.get('href')
+          # lst.append('https://www.youtube.com' + song)
+          # print(lst[])
+
+
+
+milo()
+'''
+
+'''# WORD FREQ COUNTER
+#PART 1
+import requests
+from bs4 import BeautifulSoup
+import operator
+
+def start(url):
+    list = []
+    source_code = requests.get(url).text
+    soup = BeautifulSoup(source_code, 'html.parser')
+    for post_text in soup.findAll('p'):
+        content = post_text.text
+        words = content.lower().split()
+        if len(list) < 250:
+         for each_word in words:
+            list.append(each_word)
+    print(len(list))
+    filter(list)
+# PART 2
+def filter(list):
+    filter = []
+    for word in list:
+        symbols = "!@#$%&*()_+{}|\;\':\'>?<,./"
+        for i in range(0, len(symbols)):
+            word = word.replace(symbols[i], "")
+        if len(word) > 0 and len(filter)<250:
+            print(word)
+            filter.append(word)
+
+
+
+    print(len(filter))
+    print(len(list)-len(filter ))
+    create_dictionary(filter)
+# THIS PART DOESNT WORK
+def create_dictionary(filter):
+    word_count = []
+    for word in filter:
+        if word in word_count:
+            word_count[word] += 1
+        else:
+           word_count[word] = 1
+    for key, value in sorted(word_count.items(), key= operator.itemgetter(0)):
+        print(key, value)
+
+
+
+
+
+
+start('https://www.bonkersabouttech.com/security/40-plus-list-of-intentionally-vulnerable-websites-to-practice-your-hacking-skills/392')
+'''
+# PACKING AND UNPACKING TUPLES
+'''
+def packing(grades):
+    pehla, *beech, last = grades
+    avg = sum(beech)/ len(beech)
+    print(avg)
+packing([1135,1,351,35,13,52,35,23,5,23,5,235,2,35,23])
+'''
+                                                               #HACKERRANK
+'''
+x = int(input())
+y = int(input())
+z = int(input())
+n = int(input())
+
+print([[i, j, k]
+ for i in range(0, x + 1)
+     for j in range(0, y + 1)
+         for k in range(0, z + 1)
+              if ( i + j + k) != n])
+
+#print([[i,j,k] for i in range(0, x + 1) for j in range(0, y + 1) for k in range(0, z + 1) if ( i + j + k) != n])
+'''
+'''
+dictionary = {
+    'a': 9,
+    'b': 8,
+    'c': 7,
+    'd': 6,
+    'e': 5,
+    'f': 4,
+    'g': 3,
+    'h': 2,
+    'i': 1,
+    'j': 0
+
+}
+
+print(sorted(zip(dictionary.keys(), dictionary.values())))
+'''
+'''
+import random
+i = 0
+numbers = [random.uniform(0,100) for i in range(100)]
+avg = sum(numbers)/100
+print(round(avg), avg)
+print(numbers[round(avg)])
+print(numbers)
+'''
+
+'''
+n = int(input())
+array = int(sorted(input().split()))
+result = []
+seen = set()
+for x in array:
+    if x not in seen:
+        result.append(x)
+        seen.add(x)
+print(result)
+print(result[len(result)-2])
+'''
+'''
+                                                  #HACKERRANK 
+                                     # MY ANSWER
+n = int(input())
+array = map(int, input().split())
+result = []
+seen = set()
+x = 0
+
+
+for x in array:
+    if x not in seen:
+        result.append(x)
+        seen.add(x)
+
+
+z = max(result)
+
+while max(result) == z:
+    result.remove(max(result))
+    print(max(result))
+    print(result)
+
+                                       #BETTER ANSWER
+n = int(input())
+
+nums = map(int, input().split())
+z = sorted(list(set(nums)))
+print (z[len(z)- 2])
+'''
+
+
