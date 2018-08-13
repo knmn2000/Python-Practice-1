@@ -1,0 +1,491 @@
+                                         #HACKERRANK
+#UNECESSARY CODE WALA VERSION
+'''
+
+import heapq
+n = int(input())
+lstname = []
+lstscore = []
+net = []
+i = 0
+lst = []
+while i < n:
+    name = str(input())
+    score = float(input())
+    lstname.append(name)
+    lstscore.append(score)
+    net = zip(lstname, lstscore)
+    i += 1
+
+z= list(zip(lstscore, lstname))
+#print(z)
+z.remove(min(list(zip(lstscore, lstname))))
+#print(z)
+#print((min(list(zip(lstscore, lstname)))))
+#print(min(z))
+#ans = min(list(lstscore))
+ans = min(z)[0]
+#print((min(list(lstname))))
+#print('\n'.join([a for a, b in list(zip(lstname, lstscore)) if b == ans]))
+print('\n'.join([b for a, b in sorted(z) if a == ans]))
+'''
+# PRO VERSION
+'''marksheet = []
+for _ in range(0,int(input())):
+    marksheet.append([input(), float(input())])
+
+second_highest = sorted(list(set([marks for name, marks in marksheet])))[1]
+print('\n'.join([a for a,b in sorted(marksheet) if b == second_highest]))
+'''
+'''#MY VERSION
+n = int(input())
+lstname = []
+lstscore = []
+i = 0
+while i < n:
+    name = str(input())
+    score = float(input())
+    if score < 0:
+          score = score * (-1)
+    lstname.append(name)
+    lstscore.append(score)
+    net = zip(lstname, lstscore)
+    i += 1
+z= list(zip(lstscore, lstname))
+z.remove(min(list(zip(lstscore, lstname))))
+ans = min(z)[0]
+print('\n'.join([b for a, b in sorted(z) if a == ans]))
+'''
+'''
+
+
+from collections import Counter
+text =  \
+""Quem me dera ao menos uma vez, ter de volta todo ouro que entreguei a quem"
+          "conseguiu me convencer que era prova de amizade se alguém levasse embora até o que eu não tinha.
+print(len(text))
+
+words = text.split()
+
+for x in words:
+    print("Word: %s len: %d" %(x, len(x)))
+    print("word:", x, "len:",len(x))
+
+counter = Counter(words)
+top_three = counter.most_common(5)
+
+'''
+#print("Top three: ", top_three)
+#print(words)
+#print(len(words))
+'''
+
+They are used for formatting strings. %s acts a placeholder for a string while %d acts as a placeholder for a number. Their associated values are passed in via a tuple using the % operator.
+
+name = 'marcog'
+number = 42
+print '%s %d' % (name, number)
+will print marcog 42. Note that name is a string (%s) and number is an integer (%d for decimal).
+'''
+
+
+#Sorting Custom Objects BUCKY
+'''
+from operator import attrgetter
+
+class User:
+ def __init__(self, x, y):
+  self.name = x
+  self.user_id = y
+
+ def __repr__(self):
+  return self.name + " : " + str(self.user_id)
+
+
+users = [
+ User('a', 44),
+ User('absr', 4352),
+ User('vrsa', 34452),
+ User('avw', 44523),
+ User('ae', 44253),
+ User('aae', 4423),
+ User('ar1', 4354),
+]
+
+
+for user in users:
+ print(user)
+print("--------------------------")
+for user in sorted(users, key = attrgetter('name')):
+  print(user)
+  '''
+
+# IMPROPER FUNCTIONING (JUGAAD)                                       #HACKERRANK
+
+'''
+N = int(input())
+i = 0
+command = []
+lst = []
+while i <= N :
+ command = input().split()
+ if 'insert' in command:
+    lst.insert(int(command[1]), command[2])
+    i += 1
+
+ elif 'print' in command:
+     lst = [a.strip(" \' ") for a in lst]
+     print([int(b) for b in lst])
+     i += 1
+ elif 'remove' in command:
+     lst.remove(command[1])
+     i += 1
+ elif 'append' in command:
+     lst.append(command[1])
+     i += 1
+ elif 'sort' in command:
+     lst = lst.sorted(lst)
+
+     i += 1
+ elif 'pop' in command:
+     lst.remove(lst[len(lst)-1])
+     i += 1
+ elif 'reverse' in command:
+     lst.reverse()
+     i += 1
+lst = [a.replace('\'', '') for a in lst]
+print([int(b) for b in lst])
+'''
+
+#VER 1                                        #HACKERRANK
+'''
+a = input()
+#for letters in a:
+upper = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+lower = "abcdefghijklmnopqrstuvwxyz"
+for i in range(0,26):
+ if upper[i] in a:
+      a = a.replace(upper[i], lower[i])
+ elif lower[i] in a:
+  a = a.replace(lower[i], upper[i])
+
+print(a)
+'''
+# WORKS IN PYCHARM BUT NOT ON CODE WARS                         #CODEWARS
+'''
+def spin_words(sentence):
+ sentence = sentence.split()
+ for i in range(0, len(sentence) -1):
+    for x in range(0 , len(sentence[i])):
+        sentence[i]= sentence[i][-1::-1]
+ list= []
+ list.append(' '.join(sentence))
+
+ print(list[0])
+ return None
+spin_words(input())
+'''
+
+'''
+n = str(input())
+d = [int(d) for d in str(n)]
+sqr = []
+for i in range(0, len(n)):
+ sqr.append(str(d[i]*d[i]))
+
+lst = []
+lst.append(''.join(sqr))
+
+print(lst[0])'''
+#split and join                                  #HACKERRANK
+
+'''
+line = input()
+def split_and_join(line):
+    lst= line.split()
+    lst2 = []
+    lst2.append('-'.join(lst))
+    print(lst2[0])
+split_and_join(line)
+'''
+#NAME WALA QUESTION                       #HACERRANK
+'''
+a = input()
+b = int(input())
+
+
+def print_full_name(a, b):
+    print(("Hello %s %i! You just delved into python.") % (a, b))
+
+print_full_name(a, b)
+'''
+#ALPHABET REPLACING PROBLEM                    #HACKERRANK
+'''
+a = input()
+lst = list(a)
+b = input().split()
+lst[int(b[0])] = b[1]
+ans= ''.join(lst)
+print(ans)
+'''
+# 100 % KAAM NA KARTA                                    #HACKERRANK
+'''
+string, substring = (input(), input())
+r = 0
+p = 0
+for i in range(len(string)):
+    if substring[r in range(len(substring)- 1)] == string[i]:
+        p += 1
+print(string)
+print(substring[r in range(len(substring)- 1)])
+
+print(p)
+'''
+#IS AN ALPHABET-ALPHANUMERIC ETC WALI PROBLEM                      #HACKERRANK
+'''a = list(input())
+
+print(any(r.isalnum() for r in a))
+print(any(r.isalpha() for r in a))
+print(any(r.isdigit() for r in a))
+print(any(r.islower() for r in a))
+print(any(r.isupper() for r in a))
+'''
+#import string
+
+'''s = input().split()
+def solve(s):
+    firstn = list(s[0])
+    lastn = list(s[1])
+    firstn[0] = firstn[0].upper()
+    lastn[0] = lastn[0].upper()
+    first = ''.join(firstn)
+    last = ''.join(lastn)
+    name = []
+    name.append(first)
+    name.append(last)
+    fullname = ' '.join(name)
+    print(fullname)
+solve(s)'''
+# DEGREE WALA QUESTION                                          #HACKERRANK
+'''
+import math
+ab = int(input())
+bc = int(input())
+hyp = math.sqrt(ab**2 + bc**2)
+mc = hyp/2
+t = math.atan(ab/bc)
+result = round(t*(180/math.pi))
+finalresult = [str(result), '°']
+print(''.join(finalresult))
+'''
+# HOW DOES THIS WORK??? RANGOLI PROBLEM                      #HACKERRANK
+'''
+import string
+alpha = string.ascii_lowercase
+
+n = int(input())
+L = []
+for i in range(n):
+    s = "-".join(alpha[i:n])
+    L.append((s[::-1]+s[1:]).center(4*n-3, "-"))
+print('\n'.join(L[:0:-1]+L))
+
+'''
+#MESSING ABOUT WITH OS MODULE, WRITING DELETING FILES                       #SENTDEX
+'''import os
+curDir = os.getcwd()
+print(curDir)
+
+os.mkdir('newDir1')
+
+import time
+i = 0
+while i < 10:
+
+   time.sleep(1)
+   a = ['newDir1', 'newDir%d' % i]
+   os.rename(a[0], a[1])
+   a[0] = 'newDir%d' % i
+   i += 1
+   print(a[0])
+
+
+time.sleep(1)
+
+os.rmdir('newDir9')
+'''
+#TEXT ALIGNMENT PROB                           #HACKERRANK
+'''#Replace all ______ with rjust, ljust or center.
+
+thickness = 5 #int(input()) #This must be an odd number
+c = 'H'
+
+#Top Cone
+for i in range(thickness):
+    print((c*i).rjust(thickness-1)+c+(c*i).ljust(thickness-1))
+
+#Top Pillars
+for i in range(thickness+1):
+    print((c*thickness).center(thickness*2)+(c*thickness).center(thickness*6))
+
+#Middle Belt
+for i in range((thickness+1)//2):
+    print((c*thickness*5).center(thickness*6))
+
+#Bottom Pillars
+for i in range(thickness+1):
+    print((c*thickness).center(thickness*2)+(c*thickness).center(thickness*6))
+
+#Bottom Cone
+for i in range(thickness):
+    print(((c*(thickness-i-1)).rjust(thickness)+c+(c*(thickness-i-1)).ljust(thickness)).rjust(thickness*6))
+    '''
+#NO IDEA PROBLEM                                 #HACKERRANK
+'''
+p = 0
+n, m = input().split()
+nList =input().split(' ')
+A = set(input().split(' '))
+B = set(input().split(' '))
+for x in nList:
+    if x in A:
+     p += 1
+for x in nList:
+    if x in B:
+     p -= 1
+print(p)
+'''
+'''
+from tkinter import *
+
+root = Tk()
+topFrame = Frame(root)
+topFrame.pack()
+bottomFrame = Frame(root)
+bottomFrame.pack()
+
+B1 = Button(topFrame, text = "button 1", fg="red")
+B2 = Button(topFrame, text = "button 2", fg="blue")
+B3 = Button(topFrame, text = "button 3", fg="green")
+B4 = Button(topFrame, text = "button 4", fg="purple")
+
+B1.pack(side=LEFT)
+B2.pack(side=LEFT)
+B3.pack(side=LEFT)
+B4.pack(side=BOTTOM)
+
+root.mainloop()
+'''
+
+'''from tkinter import *
+
+root = Tk()
+one = Label(root, text="pehla", fg="blue", bg= "green" )
+one.pack()
+two = Label(root, text="doosra", fg="white", bg= "red" )
+two.pack(fill = X)
+three = Label(root, text="teesra", fg="green", bg= "yellow" )
+three.pack(fill=BOTH, expand = True)
+
+root.mainloop()
+'''
+
+'''
+from tkinter import *
+
+root = Tk()
+label_1 = Label(root, text = "Naam")
+label_2 = Label(root, text = "Password")
+entry_1 = Entry(root)
+entry_2 = Entry(root)
+label_1.grid(row= 0, sticky = E)
+label_2.grid(row= 1, sticky = E)
+def printName():
+    print("Adios, amigos!")
+
+entry_1.grid(row = 0, column = 1)
+entry_2.grid(row = 1, column = 1)
+
+box = Checkbutton(root, text = "Yaad rakhiye mainne!", command =printName)
+box.grid(column=1)
+
+root.mainloop()
+'''
+'''from tkinter import *
+
+root = Tk()
+
+def printName(event):
+    print("Bruh bruhRh aefho")
+def printNamee(event):
+    print("Bruh bruhRh aefhaefaefaeo")
+
+def printNameee(event):
+
+    print("Bruh bruhRh aefh31tgv32vo")
+
+button_1 = Button(root, text= "someTitle")
+button_1.bind("<Button-3>", printName)
+button_1.bind("<Button-2>", printNamee)
+button_1.bind("<Button-1>", printNameee)
+button_1.pack()
+
+root.mainloop()
+'''
+'''
+from tkinter import *
+root = Tk()
+frame = Frame(root, width=1360, height=768)
+button1 = Button(root, bg = "YELLOW", fg= "BLACK", text = 'bruh')
+def event(event):
+    print('evenettaevent eevent event')
+button1.bind("<Button-1>", event)
+button1.pack()
+root.mainloop()
+'''
+#REVISION HACKERRANk
+'''
+N = int(input())
+s = []
+for i in range(N):
+   country =  input()
+   if country in s:
+       continue
+   s.append(country)
+
+print(len(s))
+'''
+# HACKERRANK GROUPBY PROBLEM
+# TRY 1
+'''
+# ye wala part, first draft.
+s = list(str(input()))
+i = 0
+p = 1
+for i in range(-1, len(s)-1):
+    if s[i] == s[i+1]:
+     p += 1
+     i += 1
+     print("(%s, %d)" % (s[i], p))
+     p = 1
+    else:
+        i += 1
+        print("(%s, %d)" % (s[i], p))
+        p = 1
+'''
+'''
+#TRY 2
+
+
+s = list(str(input()))
+i = 0
+k = []
+for i in range(len(s)-1):
+    if s[i] in k:
+        continue
+    else:
+        i += 1
+        k.append(s[i])
+print(k)
+print(s)
+'''
