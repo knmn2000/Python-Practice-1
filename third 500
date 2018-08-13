@@ -23,7 +23,7 @@ for i in range(n):
     b = int(input())
     print(a/b)
     except ValueError:
-        print("enter numbers only")
+        print("YE KAAM KYU NHI KAR RAHA?!?!")
     except ZeroDivisionError:
         print("AUR KYA EXPRESSIONS DU ISKO??")
 
