@@ -13,7 +13,7 @@ print(sent)
 print(vowels)'''
 
 
-# FIX THIS 
+# FIX THIS
 
 
 '''n = int(input())
@@ -23,8 +23,168 @@ for i in range(n):
     b = int(input())
     print(a/b)
     except ValueError:
-        print("YE KAAM KYU NHI KAR RAHA?!?!")
+        print("enter numbers only")
     except ZeroDivisionError:
         print("AUR KYA EXPRESSIONS DU ISKO??")
 
 '''
+
+'''from tkinter import *
+
+class miClass:
+    def __init__(self, master):
+        frame = Frame(master)
+        frame.pack()
+
+        self.printButton = Button(frame, text="print message", command=self.printMessage)
+        #self.printButton.pack(side=LEFT)
+        self.printButton.grid(row = 0, column = 1, sticky = E)
+
+        self.quitButton = Button(frame, text="Quit", command=frame.quit)
+
+        self.quitButton.grid(row = 4, column = 1, sticky = E)
+
+    def printMessage(self):
+        print("Ye kaam karta hai...")
+
+root = Tk()
+b = miClass(root)
+root.mainloop()
+'''
+'''from tkinter import *
+
+def kuchNahi():
+    print("kuch nahi")
+
+root = Tk()
+
+menu = Menu(root)
+root.config(menu=menu)
+
+subMenu = Menu(menu)
+menu.add_cascade(label= "pehla", menu=subMenu)
+subMenu.add_command(label= "first", command =kuchNahi())
+subMenu.add_command(label= "firpehla", command =kuchNahi())
+subMenu.add_separator()
+
+
+
+root.mainloop()
+'''
+'''stud = { 'a' : 1531 , 'b' : 513, 'c' : 10357, 'k':['math', 'compsci']}
+var = (stud.get('k'))
+
+var[0] = 'dingy dongy'
+print(var[0])
+var = stud.pop('c')
+print(stud)
+
+
+print(var)
+
+'''
+
+#HACKERRANK
+
+'''
+import collections
+c = collections.Counter(sorted(input()))
+
+for letter in c.most_common(3):
+    print(str(letter).strip("()\'\' \' \, ").replace(",","").replace("'",""))
+    '''
+'''plt.plot([1,2,3,4])
+plt.ylabel('some numbers')
+plt.show()'''
+
+'''def fibo(i):
+    start = time.time( )
+    x = []
+    y = []
+
+    k = 0
+    r = 1
+    while k < i:
+        if r <= 1:
+            print(r)
+            x.append(r)
+            #y.append(k)
+            r += 1
+        else:
+            print(r)
+            r = int(r + (r - 1))
+            x.append(r)
+            #y.append(k)
+        k += 1
+    plt.plot(x)
+    plt.show()
+fibo(10)'''
+'''import time
+lst = []
+i = 0
+k = int(input())
+for i in range(k):
+    lst.append(k)
+    k += 1
+    i += 1
+# itr - 1
+start = time.time()
+print(max(lst))
+end = time.time()
+print(end - start)
+
+# itr - 2
+start1 = time.time()
+p = len(lst)
+k = 0
+for k in range(p):
+    if lst[k] > any(lst):
+        print(lst[k])
+    else:
+        k += 1
+end1 = time.time()
+print(end1 - start1)
+'''
+'''
+n = list(input("First : "))
+m = list(input("Second : "))
+i = 0
+p = 0
+if len(n) == len(m):
+
+   for i in range(len(n)):
+
+       if n[i] in m:
+           i += 1
+           if i == len(n):
+               print('Anagram')
+           #else:
+            #   print("Not anagrams")
+
+else:
+    print("Not anagrams")
+'''
+#PROJECT EULER 1
+'''i = 0
+lst = []
+lst2 = []
+for i in range(1000):
+    if i%3 is 0:
+       lst.append(i)
+    else:
+        continue
+for i in range(1000):
+    if i%5 is 0:
+        lst2.append(i)
+    else:
+        continue
+for i in range(len(lst2)):
+    if lst2[i] in lst:
+        lst.remove(lst2[i])
+    else:
+        continue
+print(sorted(lst + lst2))
+print(sum(lst + lst2))
+'''
+
+# 4 mil below fibo even number sum
