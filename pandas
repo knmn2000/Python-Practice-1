@@ -1,0 +1,268 @@
+# PANDAS TUTORIALS
+
+
+'''
+####
+dataframe.set_index(" column name " ) will set the index as that column name for only that particular instance
+
+use dataframe = dataframe.set_index(" column name ") to change the index for good
+
+another way to go at this is to use -> dataframe.set_index(" column name ", inplace = True)
+
+this does the same thing as above but in one line.
+
+
+####
+
+btw pandas can plot too -> dataframe['koi col'].plot()
+
+#####
+
+If the file has date in the columns, but they are not *identified* by pandas
+
+use dataframe['date wala col'] = pd.to_datetime(dataframe['date wala col'])
+
+#####
+
+rolling average means -
+
+say we need to find the 25 point rolling average
+suppose there are a lot of points of data
+we look at one point, and look at the previous 25 points and take the average (hence the rolling average)
+
+can use mean/sum/ etc to get *rolling*
+
+dataframe[' col '].rolling(25).mean().plot() if you want to plot it too...
+
+Use this when your graphs are too jaggedy / rough. this will smooth things out
+
+
+If the graph still doesnt look pretty, then it probably means the index youre using is not
+sorted
+
+if sorting by date, use -> dataframe.sort_index(inplace = true)
+
+now try dataframe[' col '].rolling(25).mean().plot()
+#####
+
+
+
+Better than col_df = df[df[" index_name_for_that_col"] == "col"]
+is using col_df = df.copy()[df["index name for that col"] == "col"]
+
+#####
+
+
+dataframe[' col ' ].unique presents all the unique values of that col in an array
+its similar to using list(set(array_col)) where array_col is a list with repeating elements
+
+#####
+
+
+doosra_df = df[' col name' ] returns a series (?)
+
+doosra_df = df[[' col name' ]] returns a dataframe
+
+#####
+
+if two dataframes have the same indexes( indices?)
+then use df.join(doosra_df[' shared index ka naam '] ) to join the dataframes togther
+
+#####
+
+WHAT ARE F STRINGS ?
+
+graph_df = pd.DataFrame()
+
+for region in df['region'].unique()[:16]:
+    print(region)
+    region_df = df.copy()[df['region']==region]
+    region_df.set_index('Date', inplace=True)
+    region_df.sort_index(inplace=True)
+    region_df[f"{region}_price25ma"] = region_df["AveragePrice"].rolling(25).mean()
+
+    if graph_df.empty:
+        graph_df = region_df[[f"{region}_price25ma"]]  # note the double square brackets!  # F STRINGS USED HERE !!!
+    else:
+        graph_df = graph_df.join(region_df[f"{region}_price25ma"])
+
+
+####
+
+df.sort_values(bu= 'col name' , ascending = True, inplace = True) # by default its descending
+
+#####
+
+
+df.dropna().plot( figsize =( 8, 6) , legend = True/False) # figsize is in inches
+#####
+
+df = pd.read_csv("datasets/Minimum Wage Data.csv", encoding="latin")
+
+or
+
+df.to_csv("datasets/minwage.csv", encoding="utf-8")
+
+
+WHENEVER ENCODING ISSUES OCCUR
+'''
+
+import pandas as pd
+
+
+min_wage = pd.read_csv('minwagedata.csv', encoding="latin")
+
+pd.set_option('display.max_columns', 15)
+pd.set_option('display.width', 5000)
+
+print(min_wage.head(10))
+print("--------------------------------------------------")
+
+gb = min_wage.groupby("State")
+print(gb.get_group("Alaska").set_index("Year").head(10))
+print("--------------------------------------------------")
+
+#### to present all the states and their min wage with dates , use group by, its a common method and probably faster than the python logic
+
+actual_min_wage = pd.DataFrame()
+
+for name, group in min_wage.groupby("State"): # or use gb
+    if actual_min_wage.empty:
+        actual_min_wage = group.set_index("Year")[["Low.2018"]].rename(columns = {"Low.2018": name})
+    else:
+        actual_min_wage = actual_min_wage.join(group.set_index("Year")[["Low.2018"]].rename(columns = {"Low.2018": name}))
+
+print(actual_min_wage)
+
+print("--------------------------------------------------")
+
+print(actual_min_wage.describe())  # gives us a rundown about basic stats for our dataframe
+
+print("--------------------------------------------------")
+
+print(actual_min_wage.corr())   # prints out the correlations
+
+print("--------------------------------------------------")
+
+
+#doosra_df = min_wage['Low.2018']==0        ### comparison
+doosra_doosra_df = min_wage[min_wage['Low.2018']==0] ###lists states by year with min wage 0
+
+
+print(doosra_doosra_df.head()) # now that we have a df that has all the state info with no min wage, we can print them out using  doosra_doosra_df.unique()
+
+print("--------------------------------------------------")
+
+import numpy as np
+
+print(actual_min_wage.replace(0, np.NaN).dropna(axis = 1).corr().head())     # removes all the NaN (not a number) values along the y axis/columns and finds the correlation
+
+print("---------------------------------------------------")
+
+
+min_wage_corr = actual_min_wage.replace(0, np.NaN).dropna(axis = 1).corr()
+for problem in doosra_doosra_df['State'].unique():        # to check if any problems exist after dropping Na's
+    if problem in min_wage_corr.columns:
+        print("Missing something here....")
+
+
+grouped_issues = doosra_doosra_df.groupby("State") # to get all the problematic states
+
+# we find that these states have 0.0 value for some cols ,
+# to check if have *any* cols with values -
+
+for state, data in grouped_issues:
+    if data['Low.2018'].sum() != 0.0:
+        print("found data for state - ", state)      # supposedly problem solver (?)
+
+print('------------------------------------------------')
+
+##### naya maal
+
+
+#### matplotlib requires a lot of customization. Need to watch the matplot tutorials to understand better/
+import matplotlib.pyplot as plt
+
+
+##### THE BELOW COMMENTED CODE WORKS FINE, BUT THE LABELS WERE MESSED UP.
+'''
+
+labels = [k[:2] for k in min_wage_corr.columns]  # For the labeling- examples - Alaska is al
+fig = plt.figure(figsize = (12,12))   # we need the figure to add axis (?)
+ax = fig.add_subplot(111) # define the axis, so we can modify. 111 means 1x1 grid, first subplot. if it were 234, then 2x3 grid, fourth subplot
+ax.matshow(min_wage_corr, cmap = plt.cm.RdYlGn)
+ax.set_xticks(np.arange(len(labels)))
+ax.set_yticks(np.arange(len(labels))) # to show the labels
+
+ax.set_yticklabels(labels)# removes the numberings from the axis and puts labels there instead
+ax.set_xticklabels(labels)
+#plt.show()
+
+'''
+
+
+
+
+### but some of the labels are the same.
+# to fix that, we could import a dataset from the internet
+# which contains the correct labels
+
+
+dfs = pd.read_html('https://www.infoplease.com/state-abbreviations-and-state-postal-codes')
+
+for df in dfs:
+    print(df.head())
+
+print('---------------------------------------------')
+
+# now this dfs is a list. so ----
+
+state_abbs = dfs[0]  ### 0th index contains the main states
+
+# saving this dataframe
+
+#state_abbs.to_csv('stateAbbs.csv')
+# we could do the above , but notice the 0,1,2,3,4 index of the dataframe
+# pandas knows what those mean but csv does not and stores them as a meaningful index
+# so now the next time you use pandas to import this dataset
+# another index of 1234 would be put, essentially making more useless columns
+# the correct way to do this would be ---
+
+state_abbs[["State/District", "Postal Code"]].to_csv("stateAbbs.csv", index=False) # the numbering index doesnt mean anything here
+# no more faltu index :)
+
+# now
+
+state_abbs = pd.read_csv('stateAbbs.csv', index_col = 0) # 0 means false , by defaults the index col is set to True. THis means the 1234 cols are supposed to be assigned automatically.
+# no need to save twice
+print(state_abbs)
+print('---------------------------------------------')
+abbv_dict = state_abbs.to_dict() # convert df to dict, to be able to extract the labels only
+
+###### {key : {key1: value }} can be converted to just {key1 : value} by using dicttt = dicttt['key']
+
+abbv_dict = abbv_dict['Postal Code']
+print(abbv_dict)
+print('---------------------------------------------')
+# DICTS CAN BE TREATED AS DATAFRAMES (?) . Use the same py logic for dicts
+
+
+## we need to hardcode some troubling abbs
+abbv_dict['Federal (FLSA)'] = "FLSA"
+abbv_dict['Guam'] = "GU"
+abbv_dict['Puerto Rico'] = "PR"
+
+labels = [abbv_dict[k] for k in min_wage_corr.columns] # the .columns part doesnt autofill, doesnt mean what you are doing is wrong. dont depend on autofills
+fig = plt.figure(figsize = (12,12))   # we need the figure to add axis (?)
+ax = fig.add_subplot(111) # define the axis, so we can modify. 111 means 1x1 grid, first subplot. if it were 234, then 2x3 grid, fourth subplot
+ax.matshow(min_wage_corr, cmap = plt.cm.RdYlGn)
+ax.set_xticks(np.arange(len(labels)))
+ax.set_yticks(np.arange(len(labels))) # to show the labels
+
+ax.set_yticklabels(labels)# removes the numberings from the axis and puts labels there instead
+ax.set_xticklabels(labels)
+
+plt.show()
+
+
+# yay! works fine.
