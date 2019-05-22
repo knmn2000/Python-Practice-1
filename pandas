@@ -1,5 +1,7 @@
 # PANDAS TUTORIALS
 
+print("time take = ", a-b)
+
 
 '''
 ####
@@ -107,6 +109,9 @@ df.to_csv("datasets/minwage.csv", encoding="utf-8")
 WHENEVER ENCODING ISSUES OCCUR
 '''
 
+
+
+'''
 import pandas as pd
 
 
@@ -186,6 +191,7 @@ import matplotlib.pyplot as plt
 
 ##### THE BELOW COMMENTED CODE WORKS FINE, BUT THE LABELS WERE MESSED UP.
 '''
+'''
 
 labels = [k[:2] for k in min_wage_corr.columns]  # For the labeling- examples - Alaska is al
 fig = plt.figure(figsize = (12,12))   # we need the figure to add axis (?)
@@ -197,6 +203,7 @@ ax.set_yticks(np.arange(len(labels))) # to show the labels
 ax.set_yticklabels(labels)# removes the numberings from the axis and puts labels there instead
 ax.set_xticklabels(labels)
 #plt.show()
+'''
 
 '''
 
@@ -266,3 +273,149 @@ plt.show()
 
 
 # yay! works fine.
+'''
+
+########################################################################################################################
+
+'''import pandas as pd
+import numpy as np
+
+pd.set_option('display.max_columns', 100)
+pd.set_option('display.width', 100)
+unemp = pd.read_csv('output.csv')
+print(unemp.head())
+
+df = pd.read_csv('minwagedata.csv', encoding = 'latin')
+
+
+act_min_wage = pd.DataFrame()
+
+for name, group in df.groupby("State"):
+    if act_min_wage.empty:
+        act_min_wage = group.set_index("Year")[["Low.2018"]].rename(columns={"Low.2018":name})
+    else:
+        act_min_wage = act_min_wage.join(group.set_index("Year")[["Low.2018"]].rename(columns={"Low.2018":name}))
+
+act_min_wage = act_min_wage.replace(0, np.NaN).dropna(axis=1)
+act_min_wage.head()
+
+def get_min_wage(year, state):
+    try:
+        return act_min_wage.loc[year][state]
+    except:
+        return np.NaN
+print('---------------------------------')
+
+print(get_min_wage(2012, "Colorado"))
+
+#unemp['min_wage'] = list(map(get_min_wage, unemp['Year'], unemp['State']))
+
+#unemp.to_csv('unempnew.csv', index = False)
+unemp = pd.read_csv('unempnew.csv')
+print(unemp['Year'])
+print('-----------------------------------')
+
+print(unemp[['Rate', 'min_wage']].corr())
+print(unemp[['Rate', 'min_wage']].cov())          # the correlation is low but variance is high. interesting.
+
+pres16 = pd.read_csv('pres16results.csv')
+top_cands = pres16.head(10)['cand'].values
+
+county_2015 = unemp.copy()[(unemp['Year'] == 2015) & (unemp["Month"]=="February")]     # ERROR ??? it says Year is not a key here.
+# to remove state names and replace them with the abbreviationss -
+
+state_abbv = pd.read_csv('stateAbbs.csv', index_col= 0, encoding = 'latin')
+state_abbv_dict = state_abbv.to_dict()['Postal Code']
+
+### python magic  ----
+
+county_2015['State'] = county_2015['State'].map(state_abbv_dict)  # all the state names have been replaced by the state abbreviations
+
+ # Pres16 dataframe has a lot more rows than the county2015. so we will have to work accordingly to be able to join them
+
+ ###  now the col names are different in pres16 and county2015 , but they mean the same thing.
+ # so we may rename them by
+
+pres16.rename(columns = {"county": "County", "st":"State"}, inplace =True)
+
+for df in [county_2015, pres16]:
+    df.set_index(["County", "State"], inplace =True) # important
+print('--------------------------------------------------')
+pres16 = pres16[pres16['cand'] == 'Donald Trump']
+pres16 = pres16[['pct']]
+pres16.dropna(inplace = True)
+print(pres16.head())  # county and state occur here because we set them as index
+print('--------------------------------------------------')
+sab_ek_sath = county_2015.merge(pres16, on = ["County", "State"])
+sab_ek_sath.dropna(inplace = True)
+sab_ek_sath.drop("Year", axis = 1, inplace = True)
+print(sab_ek_sath)
+print('-----------')
+
+print(sab_ek_sath.corr())
+print('--------------')
+print(sab_ek_sath.cov())
+
+'''
+
+########################################################################################################################
+
+#DOING ML WITH SCI KIT LEARN AND USING PANDAS
+
+'''import pandas as pd
+import numpy as np
+
+df = pd.read_csv('diamonds.csv', index_col = 0)
+print(df.head())
+
+# we need to associate each non numerical value with a number. for example in the 'cut' column, we need to assign a number with each type
+# as ML is just linear algebra, we need these numbers
+# shortcut to do this -
+print('-----------------------------------------------')
+# # # # #  print(df['cut'].astype('category').cat.codes)
+
+### but this is useless for us rn because it applies arbitrary values to all the types but
+# we know that ideal, premium, fair etc are meaningful
+# --
+
+print(df['cut'].unique())   # we see here that the number of types are few, so we can hardcode by hand and assign a value to each of them
+
+cut_class_dict = {"Fair": 1, "Good": 2, "Very Good": 3, "Premium": 4, "Ideal": 5}
+clarity_dict = {"I3": 1, "I2": 2, "I1": 3, "SI2": 4, "SI1": 5, "VS2": 6, "VS1": 7, "VVS2": 8, "VVS1": 9, "IF": 10, "FL": 11}
+color_dict = {"J": 1,"I": 2,"H": 3,"G": 4,"F": 5,"E": 6,"D": 7}
+
+df['cut'] = df['cut'].map(cut_class_dict)
+df['clarity'] = df['clarity'].map(clarity_dict)
+df['color'] = df['color'].map(color_dict)
+print(df.head())     # now all the non numericals have numerical values , which linear algebra likes
+
+from sklearn import svm
+import sklearn
+from sklearn.linear_model import SGDRegressor
+from sklearn.utils import shuffle
+
+df = shuffle(df)
+
+X = df.drop("price", axis = 1).values  # dropped the price on axis 1 , axis 1 means columns
+y = df["price"].values # dropped everything but the price
+
+test_size = 200
+
+X_train = X[:-test_size] # up to the last 200
+y_train = y[:-test_size]
+
+X_test = X[-test_size:] # the last 200
+y_test = y[-test_size:]
+
+#clf = SGDRegressor(max_iter=1000) # some kind of regressor tool   # its absolutely useless
+#clf.fit(X_train, y_train)    # fitting the model or training it
+
+#print(clf.score(X_test, y_test))  # we get absolutely bogus values
+
+clf = svm.SVR()
+
+clf.fit(X_train, y_train)
+print(clf.score(X_test, y_test)) # Bekar score but okay
+
+for X,y in list(zip(X_test, y_test))[:10]:
+    print(f"model predicts {clf.predict([X])[0]}, real value: {y}")'''
