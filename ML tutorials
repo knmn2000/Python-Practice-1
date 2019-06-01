@@ -136,4 +136,202 @@ print(r_squared)
 ##plt.legend(loc=4)
 ##plt.show()
 '''
+         ################################## K NEAREST NEIGHBOURS
+'''import numpy as np
+import pandas as pd
+from sklearn.model_selection import train_test_split
+from sklearn import svm, preprocessing, neighbors
+from sklearn.ensemble import RandomForestClassifier
 
+pd.set_option('display.width', 100)
+pd.set_option('display.max_columns', 100)
+df = pd.read_csv('adult.data', index_col = 0)
+
+
+df.drop(['fnlwgt'], 1, inplace = True)
+df.drop(['education'], 1, inplace = True)
+print('------------------')
+
+
+marital_dict = {' Never-married':1, ' Married-civ-spouse':2, ' Divorced':3,
+ ' Married-spouse-absent':4 ,' Separated':5 ,' Married-AF-spouse':6, ' Widowed':7}
+
+occupation_dict = {' Adm-clerical':1, ' Exec-managerial':2, ' Handlers-cleaners':3, ' Prof-specialty':4,
+ ' Other-service':5 ,' Sales':6, ' Craft-repair':7, ' Transport-moving':8,
+ ' Farming-fishing':9, ' Machine-op-inspct':10, ' Tech-support':11, ' ?':12,
+ ' Protective-serv':13, ' Armed-Forces':14, ' Priv-house-serv':15}
+
+relationship_dict = {' Not-in-family': 1, ' Husband': 2, ' Wife': 3, ' Own-child': 4, ' Unmarried': 5, ' Other-relative': 6}
+
+race_dict = {' White': 1, ' Black': 2, ' Asian-Pac-Islander': 3, ' Amer-Indian-Eskimo': 4, ' Other': 5}
+
+sex_dict = {' Male': 1, ' Female':2}
+
+country_dict = {' United-States': 1, ' Cuba': 2, ' Jamaica': 3, ' India': 4, ' ?': 5, ' Mexico': 6, ' South': 7, ' Puerto-Rico': 8, ' Honduras': 9, ' England': 10, ' Canada': 11, ' Germany': 12, ' Iran': 13, ' Philippines': 14, ' Italy': 15, ' Poland': 16, ' Columbia': 17, ' Cambodia': 18, ' Thailand': 19, ' Ecuador': 20, ' Laos': 21, ' Taiwan': 22, ' Haiti': 23, ' Portugal': 24, ' Dominican-Republic': 25, ' El-Salvador': 26, ' France': 27, ' Guatemala': 28, ' China': 29, ' Japan': 30, ' Yugoslavia': 31, ' Peru': 32, ' Outlying-US(Guam-USVI-etc)': 33, ' Scotland': 34, ' Trinadad&Tobago': 35, ' Greece': 36, ' Nicaragua': 37, ' Vietnam': 38, ' Hong': 39, ' Ireland': 40, ' Hungary': 41, ' Holand-Netherlands': 42}
+
+workclass_dict = {' State-gov': 1, ' Self-emp-not-inc': 2, ' Private': 3, ' Federal-gov': 4, ' Local-gov': 5, ' ?': 6, ' Self-emp-inc': 7, ' Without-pay': 8, ' Never-worked': 9}
+
+salary_dict = {' <=50K' : 1, ' >50K': 2}
+
+df['marital'] = df['marital'].map(marital_dict)
+df['occupation'] = df['occupation'].map(occupation_dict)
+df['relationship'] = df['relationship'].map(relationship_dict)
+df['race'] = df['race'].map(race_dict)
+df['sex'] = df['sex'].map(sex_dict)
+df['country'] = df['country'].map(country_dict)
+df['workclass'] = df['workclass'].map(workclass_dict)
+df['salary'] = df['salary'].map(salary_dict)
+
+def dict_maker(lst):
+    i = 1
+    maker_dict = {}
+    for x in lst:
+        maker_dict[x] = i
+        i += 1
+    return maker_dict
+
+#print(dict_maker(df['workclass'].unique()))
+X = np.array(df.drop(['salary'], 1))
+#y = np.array(df.drop(['workclass','num_education','marital','occupation','relationship','race','sex','capital-gain','capital-loss','hours_work','country'], 1))
+y = np.array(df['salary'])
+
+
+X_train, X_test, y_train, y_test = train_test_split(X, y , test_size= 0.2)
+
+#clf = svm.SVC(verbose= True)
+clf = neighbors.KNeighborsClassifier(n_neighbors=1, n_jobs = -1)
+#clf = RandomForestClassifier()
+clf.fit(X_train, y_train)
+accuracy = clf.score(X_test, y_test)
+print(accuracy)
+
+example_measures = np.array([[ 3 ,14,  2 , 2 , 3 , 1 , 2 , 0 , 0, 40,  1]])
+example_measures = example_measures.reshape(len(example_measures), -1)
+prediction = clf.predict(example_measures)
+print(prediction)'''
+
+#df.to_csv('Income_configured.csv', index = False)
+############################# K NEAREST NEIGHBOURS FROM SCRATCH
+'''
+import numpy as np
+
+import warnings
+from collections import Counter
+
+
+def k_nearest_neighbors(data, predict, k=3):
+    if len(data) >= k:
+        warnings.warn('K is set to a value less than total voting groups!')
+    distances = []
+    for group in data:
+        for features in data[group]:
+            euclidean_distance = np.linalg.norm(np.array(features)-np.array(predict))
+            distances.append([euclidean_distance,group])
+    votes = [i[1] for i in sorted(distances)[:k]]
+    vote_result = Counter(votes).most_common(1)[0][0]
+    return vote_result
+'''
+################################### COPIED FROM SENTDEX
+import matplotlib.pyplot as plt
+from matplotlib import style
+import numpy as np
+
+style.use('ggplot')
+
+
+class Support_Vector_Machine:
+    def __init__(self, visualization=True):
+        self.visualization = visualization
+        self.colors = {1: 'r', -1: 'b'}
+        if self.visualization:
+            self.fig = plt.figure()
+            self.ax = self.fig.add_subplot(1, 1, 1)
+
+    # train
+    def fit(self, data):
+        self.data = data
+        # { ||w||: [w,b] }
+        opt_dict = {}
+
+        transforms = [[1, 1],
+                      [-1, 1],
+                      [-1, -1],
+                      [1, -1]]
+
+        all_data = []
+        for yi in self.data:
+            for featureset in self.data[yi]:
+                for feature in featureset:
+                    all_data.append(feature)
+
+        self.max_feature_value = max(all_data)
+        self.min_feature_value = min(all_data)
+        all_data = None
+
+        # support vectors yi(xi.w+b) = 1
+
+        step_sizes = [self.max_feature_value * 0.1,
+                      self.max_feature_value * 0.01,
+                      # point of expense:
+                      self.max_feature_value * 0.001, ]
+
+        # extremely expensive
+        b_range_multiple = 5
+        # we dont need to take as small of steps
+        # with b as we do w
+        b_multiple = 5
+        latest_optimum = self.max_feature_value * 10
+
+        for step in step_sizes:
+            w = np.array([latest_optimum, latest_optimum])
+            # we can do this because convex
+            optimized = False
+            while not optimized:
+                for b in np.arange(-1 * (self.max_feature_value * b_range_multiple),
+                                   self.max_feature_value * b_range_multiple,
+                                   step * b_multiple):
+                    for transformation in transforms:
+                        w_t = w * transformation
+                        found_option = True
+                        # weakest link in the SVM fundamentally
+                        # SMO attempts to fix this a bit
+                        # yi(xi.w+b) >= 1
+                        #
+                        # #### add a break here later..
+                        for i in self.data:
+                            for xi in self.data[i]:
+                                yi = i
+                                if not yi * (np.dot(w_t, xi) + b) >= 1:
+                                    found_option = False
+
+                        if found_option:
+                            opt_dict[np.linalg.norm(w_t)] = [w_t, b]
+
+                if w[0] < 0:
+                    optimized = True
+                    print('Optimized a step.')
+                else:
+                    w = w - step
+
+            norms = sorted([n for n in opt_dict])
+            # ||w|| : [w,b]
+            opt_choice = opt_dict[norms[0]]
+            self.w = opt_choice[0]
+            self.b = opt_choice[1]
+            latest_optimum = opt_choice[0][0] + step * 2
+
+    def predict(self, features):
+        # sign( x.w+b )
+        classification = np.sign(np.dot(np.array(features), self.w) + self.b)
+        return classification
+
+
+data_dict = {-1: np.array([[1, 7],
+                           [2, 8],
+                           [3, 8], ]),
+
+             1: np.array([[5, 1],
+                          [6, -1],
+                          [7, 3], ])}
+                          
+                          ################ ^ svm tutorial, copied from sentdex
